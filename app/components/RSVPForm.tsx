@@ -45,31 +45,29 @@ export default function RSVPForm({ onClose }: RSVPFormProps) {
       "message",
     ];
 
-    fields.forEach((fieldName) => {
-      const input = document.createElement("input");
+fields.forEach((fieldName) => {
+  const input = document.createElement("input");
 
-      input.type = "hidden";
-      input.name = fieldName;
+  input.type = "hidden";
+  input.name = fieldName;
 
-      const value = form.elements.namedItem(fieldName);
+  const value = form.elements.namedItem(fieldName);
 
-      if (
-        value instanceof HTMLInputElement ||
-        value instanceof HTMLSelectElement ||
-        value instanceof HTMLTextAreaElement
-      ) {
-        input.value = value.value;
-      }
+  if (value instanceof RadioNodeList) {
+    input.value = value.value;
+  } else if (
+    value instanceof HTMLInputElement ||
+    value instanceof HTMLSelectElement ||
+    value instanceof HTMLTextAreaElement
+  ) {
+    input.value = value.value;
+  }
 
-      hiddenForm.appendChild(input);
-    });
-
-    document.body.appendChild(hiddenForm);
-
-    hiddenForm.submit();
+  hiddenForm.appendChild(input);
+});
 
     setSubmitted(true);
-
+    
     setTimeout(() => {
       hiddenForm.remove();
       setSending(false);
